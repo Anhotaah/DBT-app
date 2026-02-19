@@ -7,21 +7,30 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">    
     <style>
         :root { 
-            --primary: #2563eb; 
-            --primary-hover: #1d4ed8;
-            --secondary: #f1f5f9;
-            --skill-bg: #ffffff;
-            --text: #1e293b;
-            --border: #cbd5e1;
-            --accent: #f59e0b;
-        }
+    --primary: #214A55;        
+    --primary-hover: #d49586;
+    --secondary: #DFC6C1;      /* Пыльная роза */
+    --skill-bg: #ffffff;
+    --text: #2d2a26;           /* Темный текст для контраста */
+    --border: #A39B88; 
+    --accent: #FFA1C630;         /* Персиковый */
+    --bg-main: #326f80;        /* ТОТ САМЫЙ ЦВЕТ ИЗ ЦЕНТРА */
+}
         body { 
-    font-family: 'Inter', sans-serif; 
-    background: #c5daf0; 
-    color: #1e293b; 
+    font-family: 'Segoe UI', system-ui, sans-serif; 
+    /* Основной цвет фона (остается под картинкой, если она прозрачная) */
+    background-color: var(--bg-main); 
+    /* Путь к твоей картинке */
+    background-image: url("back3.png"); 
+    background-size: 3000px;
+    background-repeat: repeat; 
+    background-attachment: fixed; /* Чтобы фон не уезжал при скролле */
+    
+    color: var(--text); 
+    padding: 10px; 
+    margin: 0; 
     line-height: 1.6; 
-    font-weight: 450; /* Чуть плотнее обычного, но не жирный */
-    letter-spacing: -0.01em; /* Легкое сужение букв для стиля */
+    font-weight: 500; 
 }
         .container { max-width: 800px; margin: 0 auto; }
 
@@ -33,28 +42,82 @@
         }
 
         /* --- Главный Аккордеон (Модули) --- */
-        .module { margin-bottom: 12px; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); background: #f2f7fc; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .module { 
+    margin-bottom: 15px; 
+    border-radius: 24px; /* Закругляем модули навыков */
+    overflow: hidden; 
+    border: none; 
+    background: #9AC8D4;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    padding: 0; 
+}
         .module-btn { 
-            width: 100%; background: #f2f7fc; color: var(--primary); padding: 18px; text-align: left; border: none; 
-            font-size: 18px; font-weight: 800; cursor: pointer; display: flex; justify-content: space-between; align-items: center;
-            border-left: 6px solid var(--primary); transition: 0.2s;
-        }
-        .module-btn:hover { background: #dbeafe; }
+    width: 100%;
+    background: #9AC8D4;
+    color: var(--primary);
+    padding: 20px;
+    text-align: left;
+    border: none;
+    border-radius: 0;
+    font-size: 18px;
+    font-weight: 800;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    transition: background 0.3s ease;
+}
+.module-btn:hover { background: #8ab8c4; }
+        .module-btn.active { background: #9AC8D4; }
         .module-btn::after { content: '▼'; font-size: 12px; transition: 0.3s; }
         .module-btn.active::after { transform: rotate(180deg); }
-        .module-content { display: none; padding: 15px; background: #fff; }
+        .module-content { 
+    display: none; 
+    padding: 15px; 
+    background: #9AC8D4; }
 
         /* --- Вложенный Аккордеон (Навыки) --- */
-        .skill { margin-bottom: 8px; border: 1px solid #e2e8f0; border-radius: 6px; }
-        .skill-btn {
-            width: 100%; background: #f8fafc; color: #334155; padding: 12px 15px; text-align: left; border: none;
-            font-size: 16px; font-weight: 600; cursor: pointer; border-left: 4px solid var(--accent); transition: 0.2s;
-        }
-        .skill-btn:hover { background: #f1f5f9; padding-left: 20px; }
+        .skill { 
+    margin-bottom: 10px; 
+    /* Равномерная обводка со всех сторон */
+    border: 2px solid var(--accent); 
+    border-radius: 16px; 
+    overflow: hidden;
+    background: white; /* Чтобы фон не просвечивал */
+    transition: transform 0.2s;
+}
+
+/* Убираем жирную полосу слева у кнопки, так как теперь есть общая рамка */
+.skill-btn {
+    width: 100%; 
+    background: transparent; /* Кнопка берет фон карточки */
+    color: var(--text); 
+    padding: 14px 15px; 
+    text-align: left; 
+    border: none; /* УБИРАЕМ border-left здесь */
+    font-size: 16px; 
+    font-weight: 600; 
+    cursor: pointer;
+}
+
+/* Добавим эффект при наведении, чтобы карточка чуть оживала */
+.skill:hover {
+    border-color: var(--primary); /* При наведении рамка меняет цвет на терракотовый */
+    transform: translateY(-2px); /* Легкий подъем */
+}
+        
         .skill-body { display: none; padding: 15px; background: #fff; border-top: 1px solid #e2e8f0; }
 
         /* --- Контент навыка --- */
-        .theory-box { background: #fffbeb; padding: 12px; border-radius: 6px; margin-bottom: 15px; border-left: 4px solid #d97706; font-size: 14px; }
+        .theory-box { 
+    background: var(--accent); 
+    padding: 15px; 
+    border-radius: 14px; 
+    margin-bottom: 15px; 
+    border-left: 6px solid var(--primary); 
+    color: #5a544b;
+}
         .step-table { width: 100%; border-collapse: collapse; font-size: 15px; }
         .step-table tr { border-bottom: 1px solid #f1f5f9; }
         .step-table td { padding: 10px 5px; vertical-align: top; }
@@ -62,16 +125,39 @@
 
         /* --- Внутренние вкладки (Tabs) --- */
         .tabs { display: flex; gap: 5px; margin-bottom: 10px; flex-wrap: wrap; }
-        .tab-btn { background: #e2e8f0; border: none; padding: 8px 12px; border-radius: 20px; cursor: pointer; font-size: 13px; font-weight: bold; transition: 0.2s; }
+        .tab-btn { 
+    background: var(--secondary); 
+    border: none; 
+    padding: 10px 18px; 
+    border-radius: 12px; 
+    color: white;
+}
         .tab-btn:hover { background: #cbd5e1; }
-        .tab-btn.active { background: var(--primary); color: white; }
+        .tab-btn.active { 
+    background: var(--primary); 
+    box-shadow: 0 4px 10px rgba(230, 172, 158, 0.4);
+}
         .tab-content { display: none; animation: fadeIn 0.3s; padding: 5px; }
         .tab-content.active { display: block; }
         .tab-content p { margin: 0 0 10px 0; }
 
         /* --- SOS Панель --- */
-        .control-panel { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 25px; border: 1px solid #e2e8f0; }
-        select, button { width: 100%; padding: 14px; margin-top: 10px; border-radius: 8px; font-size: 16px; }
+        .control-panel { 
+    background: white; 
+    padding: 20px; 
+    border-radius: 20px; /* Закругляем панель SOS */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+    margin-bottom: 25px; 
+    border: 1px solid var(--border); 
+}
+        select, button { 
+    width: 100%; 
+    padding: 14px; 
+    margin-top: 10px; 
+    border-radius: 14px; /* Закругленные кнопки и списки */
+    font-size: 16px; 
+    border: 1px solid var(--border);
+}
         button { background: var(--primary); color: white; border: none; font-weight: bold; cursor: pointer; }
         button:hover { filter: brightness(1.1); }
         
@@ -149,7 +235,7 @@
 
     <div id="sos-output" style="display:none; margin-bottom: 30px; border: 2px dashed #ef4444; padding: 10px; border-radius: 8px;"></div>
 
-    <h2 style="color:#334155; margin-left: 5px;">📚 Реестр навыков DBT</h2>
+    <h2 style="color:white; margin-left: 5px;">📚 Реестр навыков DBT</h2>
     <div id="library"></div>
 </div>
 
@@ -395,7 +481,7 @@ function recommend() {
     const mood = parseInt(document.getElementById('rng').value);
     const prob = document.getElementById('problem').value;
     sosOutput.style.display = 'block';
-    sosOutput.innerHTML = '<h3 style="margin-top:0; color:var(--primary)">🎯 Твой план на текущее состояние:</h3>';
+    sosOutput.innerHTML = '<h3 style="margin-top:0; color:white">🎯 Твой план на текущее состояние:</h3>';
     
     let picks = []; 
 
