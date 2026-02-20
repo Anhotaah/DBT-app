@@ -230,14 +230,22 @@ width:40%;
 font-size:14px;
 ">Кризис/Суицидальные мысли</button>
 
-<select id="problem" style="margin-top: 5px;">
-    <option value="rage">🔥 Гнев / Ярость / Агрессия</option>
-    <option value="conflict">🗣 Конфликт / Проблема в отношениях</option>
-    <option value="sad">💧 Грусть / Апатия / Отчаяние</option>
-    <option value="shame">😳 Стыд / Вина / Самосаботаж</option>
-    <option value="fear">⚡ Страх / Тревога / Паника</option>
-    <option value="addiction">🍷 Тяга к зависимости / Импульс</option>
-</select>
+<div style="position:relative; margin-top:5px;" id="custom-select">
+    <div onclick="toggleDropdown()" id="select-display" style="padding:10px 15px; background:white; border:1px solid #ccc; border-radius:8px; cursor:pointer; display:flex; justify-content:space-between; align-items:center;">
+        <span id="select-label">🔥 Гнев / Ярость / Агрессия</span>
+        <span>▾</span>
+    </div>
+    <div id="dropdown-list" style="display:none; position:absolute; top:110%; left:0; right:0; background:white; border:1px solid #ccc; border-radius:8px; z-index:999; box-shadow:0 4px 12px rgba(0,0,0,0.15); overflow:hidden;">
+        <div onclick="selectOption('rage','🔥 Гнев / Ярость / Агрессия')" style="padding:10px 15px; cursor:pointer; hover:background:#f1f5f9;">🔥 Гнев / Ярость / Агрессия</div>
+        <div onclick="selectOption('conflict','🗣 Конфликт / Проблема в отношениях')" style="padding:10px 15px; cursor:pointer;">🗣 Конфликт / Проблема в отношениях</div>
+        <div onclick="selectOption('sad','💧 Грусть / Апатия / Отчаяние')" style="padding:10px 15px; cursor:pointer;">💧 Грусть / Апатия / Отчаяние</div>
+        <div onclick="selectOption('shame','😳 Стыд / Вина / Самосаботаж')" style="padding:10px 15px; cursor:pointer;">😳 Стыд / Вина / Самосаботаж</div>
+        <div onclick="selectOption('fear','⚡ Страх / Тревога / Паника')" style="padding:10px 15px; cursor:pointer;">⚡ Страх / Тревога / Паника</div>
+        <div onclick="selectOption('addiction','🍷 Тяга к зависимости / Импульс')" style="padding:10px 15px; cursor:pointer;">🍷 Тяга к зависимости / Импульс</div>
+    </div>
+</div>
+<input type="hidden" id="problem" value="rage">
+
 <button onclick="recommend()" style="margin-top:15px; background: #3493A4;">Подобрать практики</button>
     </div>
 
@@ -520,6 +528,23 @@ function toggleCrisisMode() {
         val.innerText = rng.value; // Возвращаем текущее значение ползунка
     }
 }
+
+function toggleDropdown() {
+    const list = document.getElementById('dropdown-list');
+    list.style.display = list.style.display === 'none' ? 'block' : 'none';
+}
+
+function selectOption(value, label) {
+    document.getElementById('problem').value = value;
+    document.getElementById('select-label').textContent = label;
+    document.getElementById('dropdown-list').style.display = 'none';
+}
+
+document.addEventListener('click', function(e) {
+    if (!document.getElementById('custom-select').contains(e.target)) {
+        document.getElementById('dropdown-list').style.display = 'none';
+    }
+});
 
 // 3. Логика SOS рекомендаций
 function recommend() {
