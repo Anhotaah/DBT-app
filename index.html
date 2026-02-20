@@ -221,16 +221,24 @@
     Оценка: <span id="val" style="font-size: 24px; font-weight: 800; color: var(--primary);">5</span>
 </div>
 
-<select id="problem" style="margin-top: 15px;" onchange="toggleCrisisMode()">
-    <option value="crisis">🆘 Острый кризис / Суицидальные мысли</option>
+<button onclick="showCrisis()" 
+style="display:block; 
+margin: 0 auto 10px;
+margin-top: 14px; 
+background: #ef4444; 
+width:40%; 
+font-size:14px;
+">Кризис/Суицидальные мысли</button>
+
+<select id="problem" style="margin-top: 5px;">
     <option value="rage">🔥 Гнев / Ярость / Агрессия</option>
     <option value="conflict">🗣 Конфликт / Проблема в отношениях</option>
-    <option value="sad">💧 Грусть / Апатия / Отчаяние </option>
+    <option value="sad">💧 Грусть / Апатия / Отчаяние</option>
     <option value="shame">😳 Стыд / Вина / Самосаботаж</option>
     <option value="fear">⚡ Страх / Тревога / Паника</option>
     <option value="addiction">🍷 Тяга к зависимости / Импульс</option>
 </select>
-<button onclick="recommend()" style="margin-top:15px; background: #ef4444;">Сгенерировать план спасения</button>
+<button onclick="recommend()" style="margin-top:15px; background: #3493A4;">Подобрать практики</button>
     </div>
 
     <div id="sos-output" style="display:none; margin-bottom: 30px; border: 2px dashed #ef4444; padding: 10px; border-radius: 8px;"></div>
@@ -456,6 +464,43 @@ function switchTab(btn, contentId) {
     // Переключение контента (ищем внутри текущего skill-body)
     wrapper.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
     document.getElementById(contentId).classList.add('active');
+}
+
+function showCrisis() {
+    sosOutput.style.display = 'block';
+    sosOutput.innerHTML = `
+        <h3 style="margin-top:0; color:white">🆘 Острый кризис</h3>
+        <p style="color:white; font-size:20px; line-height:1.7;">
+            Пожалуйста, <strong>свяжись со своим терапевтом</strong> прямо сейчас.<br>
+            Если терапевт недоступен - c близким или позвони телефону доверия:<br>
+            📞 <strong>8-800-2000-124</strong> (бесплатно, круглосуточно)<br><br>
+            Пока ждёшь — техники, которые помогут пережить этот момент:
+        </p>
+    `;
+
+    [[3, 0], [3, 1], [3, 3]].forEach(p => {
+        const skillData = DB[p[0]].skills[p[1]];
+        if (!skillData) return;
+        const card = document.createElement('div');
+        card.className = 'skill';
+        card.style.background = '#fff';
+        card.style.display = 'block';
+        let html = `<div style="padding:10px 15px; background:#f1f5f9; font-weight:bold; border-bottom:1px solid #ddd; color:var(--primary)">${skillData.name}</div><div style="padding:15px">`;
+        if(skillData.theory) html += `<div class="theory-box"><b>Суть:</b><br>${skillData.theory}</div>`;
+        if(skillData.tabs) skillData.tabs.forEach(t => {
+            html += `<div style="margin-bottom:10px; border:1px solid #f1f5f9; padding:10px; border-radius:5px; background:#fff;"><strong style="color:#d97706">${t.title}</strong><br>${t.content}</div>`;
+        });
+        if(skillData.steps) {
+            html += `<table class="step-table">`;
+            skillData.steps.forEach((s, i) => html += `<tr><td class="step-idx">${i+1}.</td><td>${s}</td></tr>`);
+            html += `</table>`;
+        }
+        html += `</div>`;
+        card.innerHTML = html;
+        sosOutput.appendChild(card);
+    });
+
+    sosOutput.scrollIntoView({behavior:'smooth'});
 }
 
 function toggleCrisisMode() {
